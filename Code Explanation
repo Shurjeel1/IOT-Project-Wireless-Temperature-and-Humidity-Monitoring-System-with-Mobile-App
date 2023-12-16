@@ -1,3 +1,0 @@
-Two libraries are included in the code: Liquid Crystal, which interfaces with the LCD, and SoftwareSerial, which creates a software-based serial connection for the Bluetooth module
-The temperature and humidity data acquired from the DHT-11 sensor are stated to be stored in the temp and hum variables
-The setup function sets up SoftwareSerial for Bluetooth connectivity, starts Serial communication at a baud rate of 9600 for debugging, initializes the LCD, and displays a welcome message for two seconds
