@@ -1,0 +1,59 @@
+#include <SoftwareSerial.h>
+SoftwareSerial bt(8, 9); // RX, TX
+
+#include <LiquidCrystal.h> 
+#include "DHT.h"
+
+LiquidCrystal lcd(7, 6, 5, 4, 3, 2); 
+#define DHTPIN 11     // what pin we're connected to
+
+#define DHTTYPE DHT11   // DHT 11 
+int temp;
+int hum;
+DHT dht(DHTPIN, DHTTYPE);
+const int buzzerPin = 10; // Set your buzzer pin
+void setup() {
+ pinMode(buzzerPin, OUTPUT); // Set the buzzer pin as an output
+ Serial.begin(9600); 
+ bt.begin(9600); 
+ Serial.println("Ready");
+  dht.begin();
+  lcd.begin(16,2);  
+  lcd.setCursor(0,0);
+  lcd.print(" WELCOME To   ");
+  lcd.setCursor(0,1);
+  lcd.print("Microsolutions Lab");
+  delay(2000);
+  lcd.clear(); 
+}
+
+void loop(){
+///  int readData = DHT.read11(dataPin);
+  delay(2000);
+
+  hum = dht.readHumidity();
+  temp = dht.readTemperature();
+
+  lcd.setCursor(0,0);
+  lcd.print("Humidity: ");
+  lcd.print(hum);
+  lcd.print("% ");
+  Serial.print(hum);
+ Serial.print("% ");
+  lcd.setCursor(0,1); 
+  lcd.print("Temp: "); 
+  lcd.print(temp); 
+  lcd.print((char)223); //degree symbol
+  lcd.print("C ");
+
+ bt.print(temp); //send distance to MIT App
+ bt.print(";");
+ bt.print(hum); //send distance to MIT App 
+ bt.println(";");
+  if (temp > 25) {
+    digitalWrite(buzzerPin, HIGH); // Turn on the buzzer
+  } else {
+    digitalWrite(buzzerPin, LOW); // Turn off the buzzer
+  }
+delay(1000);
+}
